@@ -532,7 +532,11 @@ function scene:create( event )
 	--challengeButton.x = centerX; challengeButton.y = centerY+90;
 	screenGroup:insert(challengeButton)
 	
-	instructionsButton = display.newText({text="?",  x=centerX - 55, y=_H * 0.75 + 7, fontSize=30, font="FFF Forward"})  
+	if platform == 'ios' then
+		instructionsButton = display.newText({text="?",  x=centerX - 55, y=_H * 0.75 + 7, fontSize=30, font="FFF Forward"})  
+	else
+		instructionsButton = display.newText({text="How to Play",  x=centerX + 10, y=_H * 0.75 + 7, fontSize=20, font="FFF Forward"})  
+	end
 	--challengeButton.x = centerX; challengeButton.y = centerY+90;
 	screenGroup:insert(instructionsButton)
 	
@@ -677,19 +681,19 @@ function scene:show( event )
 		
 		-- Update Lua memory text display
 		
-			classicButton:addEventListener("touch", gotoClassic)
-	challengeButton:addEventListener("touch", gotoChallenge)
-	audioOn:addEventListener( "touch", toggleAudio)
-	audioOff:addEventListener( "touch", toggleAudio)
-	audioOnBlack:addEventListener( "touch", toggleAudio)
-	audioOffBlack:addEventListener( "touch", toggleAudio)
-	blackOrWhite:addEventListener( "touch", toggleBackground)
-	instructionsButton:addEventListener( "touch", gotoInstructions)
-	ghsWhite:addEventListener( "touch", showLeaderboards)
-	ghsBlack:addEventListener( "touch", showLeaderboards)
-	achievementWhite:addEventListener( "touch", showAchievements)
-	achievementBlack:addEventListener( "touch", showAchievements)
-	Runtime:addEventListener("key", onKeyEvent)
+		classicButton:addEventListener("touch", gotoClassic)
+		challengeButton:addEventListener("touch", gotoChallenge)
+		audioOn:addEventListener( "touch", toggleAudio)
+		audioOff:addEventListener( "touch", toggleAudio)
+		audioOnBlack:addEventListener( "touch", toggleAudio)
+		audioOffBlack:addEventListener( "touch", toggleAudio)
+		blackOrWhite:addEventListener( "touch", toggleBackground)
+		instructionsButton:addEventListener( "touch", gotoInstructions)
+		ghsWhite:addEventListener( "touch", showLeaderboards)
+		ghsBlack:addEventListener( "touch", showLeaderboards)
+		achievementWhite:addEventListener( "touch", showAchievements)
+		achievementBlack:addEventListener( "touch", showAchievements)
+		Runtime:addEventListener("key", onKeyEvent)
 	end
 
 end

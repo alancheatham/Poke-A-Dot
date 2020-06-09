@@ -353,14 +353,13 @@ local function unlockAchievement(achievement)
 		elseif achievement == "ACH_POKE_A_DOT_MASTER" then
 			myAchievement = "grp.pokeadot.padm"
 		end
+
+		gameNetwork.request( "unlockAchievement",
+		{
+		achievement = { identifier=myAchievement, percentComplete=100, showsCompletionBanner=true },
+		listener = achievementRequestCallback
+		} )
 	end
-
-	gameNetwork.request( "unlockAchievement",
-	{
-	   achievement = { identifier=myAchievement, percentComplete=100, showsCompletionBanner=true },
-	   listener = achievementRequestCallback
-	} )
-
 end
 
 local function rateAppListener(event) 
@@ -422,13 +421,13 @@ local function updateHighScores(score)
 	   myCategory = "CgkIruCKpq0YEAIQAQ"
 	else
 		myCategory = "grp.pokeadot.challenge"
-	end
 
-	gameNetwork.request( "setHighScore",
-	{
-	   localPlayerScore = { category=myCategory, value=gphsTime },
-	   listener = postScoreSubmit
-	} )
+		gameNetwork.request( "setHighScore",
+		{
+		localPlayerScore = { category=myCategory, value=gphsTime },
+		listener = postScoreSubmit
+		} )
+	end
 
 end
 

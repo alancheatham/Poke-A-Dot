@@ -39,7 +39,7 @@ Runtime:addEventListener("key", onKeyEvent)
 local composer = require "composer" 
 local scene = composer.newScene()
 local preference = require "preference"
-local gameNetwork = require "gameNetwork" 
+local gameNetwork = require "gameNetwork"
 
 -- Global device specific coordinates
 local _W = display.actualContentWidth
@@ -156,14 +156,13 @@ local function unlockAchievement(achievement)
 		elseif achievement == "ACH_POKE_A_DOT_MASTER" then
 			myAchievement = "grp.pokeadot.padm"
 		end
+
+		gameNetwork.request( "unlockAchievement",
+		{
+		achievement = { identifier=myAchievement, percentComplete=100, showsCompletionBanner=true },
+		listener = achievementRequestCallback
+		} )
 	end
-
-	gameNetwork.request( "unlockAchievement",
-	{
-	   achievement = { identifier=myAchievement, percentComplete=100, showsCompletionBanner=true },
-	   listener = achievementRequestCallback
-	} )
-
 end
 
 local function rateAppListener(event) 
@@ -224,14 +223,13 @@ local function updateHighScores(score)
 	   myCategory = "CgkIruCKpq0YEAIQAA"
 	else
 		myCategory = "grp.pokeadot.classic"
+		gameNetwork.request( "setHighScore",
+		{
+		localPlayerScore = { category=myCategory, value=gphsTime },
+		listener = postScoreSubmit
+		} )
 	end
 
-	gameNetwork.request( "setHighScore",
-	{
-	   localPlayerScore = { category=myCategory, value=gphsTime },
-	   listener = postScoreSubmit
-	} )
-	
 end
 
 local function gameFinished()

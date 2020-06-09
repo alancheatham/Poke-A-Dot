@@ -26,6 +26,7 @@ settings =
 		{
 			"android.permission.INTERNET",
 		},
+		googlePlayGamesAppId = "836793184302"
 	},
 
 	--
@@ -49,6 +50,11 @@ settings =
 		["CoronaProvider.gameNetwork.apple"] =
         {
             publisherId = "com.coronalabs"
+        },
+		["plugin.gpgs.v2"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = {["android"] = true, ["android-kindle"] = true }
         },
 	},
 
