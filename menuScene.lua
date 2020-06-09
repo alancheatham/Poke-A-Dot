@@ -1,4 +1,41 @@
 
+local function screenshot()
+
+	--I set the filename to be "widthxheight_time.png"
+	--e.g. "1920x1080_20140923151732.png"
+	local date = os.date( "*t" )
+	local timeStamp = table.concat({date.year .. date.month .. date.day .. date.hour .. date.min .. date.sec})
+	local fname = display.pixelWidth.."x"..display.pixelHeight.."_"..timeStamp..".png"
+
+	--capture screen
+	local capture = display.captureScreen(false)
+
+	--make sure image is right in the center of the screen
+	capture.x, capture.y = display.contentWidth * 0.5, display.contentHeight * 0.5
+
+	--save the image and then remove
+	local function save()
+		display.save( capture, { filename=fname, baseDir=system.DocumentsDirectory, isFullResolution=true } )
+		capture:removeSelf()
+		capture = nil
+	end
+	timer.performWithDelay( 100, save, 1)
+
+	return true
+end
+
+--works in simulator too
+local function onKeyEvent(event)
+	if event.phase == "up" then
+		--press s key to take screenshot which matches resolution of the device
+    	    if event.keyName == "s" then
+    		screenshot()
+    	    end
+        end
+end
+
+Runtime:addEventListener("key", onKeyEvent)
+
 local composer = require( "composer" )
 local scene = composer.newScene()
 local preference = require "preference"
@@ -307,8 +344,6 @@ local function setBackgroundColors()
 			ghsBlack.isVisible = true
 			achievementWhite.isVisible = false
 			achievementBlack.isVisible = true
-			ghsBlack.alpha = 0.50
-			achievementBlack.alpha = 0.50
 		end
 		if classicMedal == "none" or classicMedal == nil then
 			classicNoneIconWhite.isVisible = false
@@ -458,46 +493,46 @@ function scene:create( event )
 	backgroundImageBlack.y = 0 + display.screenOriginY
 	
 	whiteTitle = display.newImageRect(screenGroup, "media/WhiteTitle.png", 250, 55)
-	whiteTitle.y = 180
+	whiteTitle.y = _H * 0.35
 	whiteTitle.x = centerX
 	
 	blackTitle = display.newImageRect(screenGroup, "media/WhiteTitle.png", 250, 55)
-	blackTitle.y = 180
+	blackTitle.y = _H * 0.33
 	blackTitle.x = centerX
 	
 	titleImage = display.newImageRect(screenGroup, "media/Logo.png", 150, 150)
-	titleImage.y = 100
+	titleImage.y = _H * 0.18
 	titleImage.x = centerX - 20
 	
 	ghsWhite = display.newImageRect(screenGroup, "media/highScoresWhite.png", 50, 50) 
 	ghsWhite.x = centerX + 10
-	ghsWhite.y = centerY + 155
+	ghsWhite.y = _H * 0.75
 	ghsWhite.isVisible = false
 	
 	ghsBlack = display.newImageRect(screenGroup, "media/highScoresBlack.png", 50, 50) 
 	ghsBlack.x = centerX + 10
-	ghsBlack.y = centerY + 155
+	ghsBlack.y = _H * 0.75
 	ghsBlack.isVisible = false
 	
 	achievementWhite = display.newImageRect(screenGroup, "media/achievementsWhite.png", 50, 50) 
 	achievementWhite.x = centerX + 80
-	achievementWhite.y = centerY + 155
+	achievementWhite.y = _H * 0.75
 	achievementWhite.isVisible = false
 	
 	achievementBlack = display.newImageRect(screenGroup, "media/achievementsBlack.png", 50, 50) 
 	achievementBlack.x = centerX + 80
-	achievementBlack.y = centerY + 155
+	achievementBlack.y = _H * 0.75
 	achievementBlack.isVisible = false
 	
-	classicButton = display.newText({text="Classic",  x=centerX , y=centerY + 23, fontSize=30, font="FFF Forward"})       
+	classicButton = display.newText({text="Classic",  x=centerX , y=_H * 0.535, fontSize=30, font="FFF Forward"})       
 	--classicButton.x = centerX; classicButton.y = centerY+20;
 	screenGroup:insert(classicButton)
 	
-	challengeButton = display.newText({text="Challenge",  x=centerX + 22, y=centerY + 93, fontSize=30, font="FFF Forward"})  
+	challengeButton = display.newText({text="Challenge",  x=centerX + 22, y=_H * 0.645, fontSize=30, font="FFF Forward"})  
 	--challengeButton.x = centerX; challengeButton.y = centerY+90;
 	screenGroup:insert(challengeButton)
 	
-	instructionsButton = display.newText({text="?",  x=centerX - 55, y=centerY + 160, fontSize=30, font="FFF Forward"})  
+	instructionsButton = display.newText({text="?",  x=centerX - 55, y=_H * 0.75 + 7, fontSize=30, font="FFF Forward"})  
 	--challengeButton.x = centerX; challengeButton.y = centerY+90;
 	screenGroup:insert(instructionsButton)
 	
@@ -506,76 +541,76 @@ function scene:create( event )
 	--logRect.isVisible, logConfirm.isVisible, logYes.isVisible, logNo.isVisible = true
 	
 	audioOn = display.newImage('media/audio-on.png')
-	audioOn.width = 30; audioOn.height = 30; audioOn.x = _W-40; audioOn.y = 45
+	audioOn.width = 30; audioOn.height = 30; audioOn.x = _W-40; audioOn.y = _H * 0.09
 	audioOn:toFront()
 	screenGroup:insert(audioOn)
 	
 	audioOff = display.newImage('media/audio-off.png')
-	audioOff.width = 30; audioOff.height = 30; audioOff.x = _W-40; audioOff.y = 45
+	audioOff.width = 30; audioOff.height = 30; audioOff.x = _W-40; audioOff.y = _H * 0.09
 	audioOff:toFront()
 	screenGroup:insert(audioOff)
 	
 	audioOnBlack = display.newImage('media/audio-onBlack.png')
-	audioOnBlack.width = 30; audioOnBlack.height = 30; audioOnBlack.x = _W-40; audioOnBlack.y = 45
+	audioOnBlack.width = 30; audioOnBlack.height = 30; audioOnBlack.x = _W-40; audioOnBlack.y = _H * 0.09
 	audioOnBlack:toFront()
 	screenGroup:insert(audioOnBlack)
 	
 	audioOffBlack = display.newImage('media/audio-offBlack.png')
-	audioOffBlack.width = 30; audioOffBlack.height = 30; audioOffBlack.x = _W-40; audioOffBlack.y = 45
+	audioOffBlack.width = 30; audioOffBlack.height = 30; audioOffBlack.x = _W-40; audioOffBlack.y = _H * 0.09
 	audioOffBlack:toFront()
 	screenGroup:insert(audioOffBlack)
 	
 	blackOrWhite = display.newImage('media/BlackOrWhite.png')
-	blackOrWhite.width = 30; blackOrWhite.height = 30; blackOrWhite.x = 40; blackOrWhite.y = 45
+	blackOrWhite.width = 30; blackOrWhite.height = 30; blackOrWhite.x = 40; blackOrWhite.y = _H * 0.09
 	blackOrWhite:toFront()
 	screenGroup:insert(blackOrWhite)
 	
 	classicBronzeIcon = display.newImageRect(screenGroup, "media/classicBronzeIcon.png", 38, 38)
-	classicBronzeIcon.x = centerX - 108; classicBronzeIcon.y = centerY+22;
+	classicBronzeIcon.x = centerX - 108; classicBronzeIcon.y = _H * 0.533;
 	classicBronzeIcon.isVisible = false
 	
 	classicSilverIcon = display.newImageRect(screenGroup, "media/classicSilverIcon.png", 38, 38)
-	classicSilverIcon.x = centerX - 108; classicSilverIcon.y = centerY+22;
+	classicSilverIcon.x = centerX - 108; classicSilverIcon.y = _H * 0.533;
 	classicSilverIcon.isVisible = false
 	
 	classicGoldIcon = display.newImageRect(screenGroup, "media/classicGoldIcon.png", 38, 38)
-	classicGoldIcon.x = centerX - 108; classicGoldIcon.y = centerY+22;
+	classicGoldIcon.x = centerX - 108; classicGoldIcon.y = _H * 0.533;
 	classicGoldIcon.isVisible = false
 	
 	classicPlatinumIcon = display.newImageRect(screenGroup, "media/classicPlatinumIcon.png", 38, 38)
-	classicPlatinumIcon.x = centerX - 108; classicPlatinumIcon.y = centerY+22;
+	classicPlatinumIcon.x = centerX - 108; classicPlatinumIcon.y = _H * 0.533;
 	classicPlatinumIcon.isVisible = false
 	
 	challengeBronzeIcon = display.newImageRect(screenGroup, "media/challengeBronzeIcon.png", 38, 38)
-	challengeBronzeIcon.x = centerX - 108; challengeBronzeIcon.y = centerY+92;
+	challengeBronzeIcon.x = centerX - 108; challengeBronzeIcon.y = _H * 0.643;
 	challengeBronzeIcon.isVisible = false
 	
 	challengeSilverIcon = display.newImageRect(screenGroup, "media/challengeSilverIcon.png", 38, 38)
-	challengeSilverIcon.x = centerX - 108; challengeSilverIcon.y = centerY+92;
+	challengeSilverIcon.x = centerX - 108; challengeSilverIcon.y = _H * 0.643;
 	challengeSilverIcon.isVisible = false	
 	
 	challengeGoldIcon = display.newImageRect(screenGroup, "media/challengeGoldIcon.png", 38, 38)
-	challengeGoldIcon.x = centerX - 108; challengeGoldIcon.y = centerY+92;
+	challengeGoldIcon.x = centerX - 108; challengeGoldIcon.y = _H * 0.643;
 	challengeGoldIcon.isVisible = false
 	
 	challengePlatinumIcon = display.newImageRect(screenGroup, "media/challengePlatinumIcon.png", 38, 38)
-	challengePlatinumIcon.x = centerX - 108; challengePlatinumIcon.y = centerY+92;
+	challengePlatinumIcon.x = centerX - 108; challengePlatinumIcon.y = _H * 0.643;
 	challengePlatinumIcon.isVisible = false
 	
 	classicNoneIconWhite = display.newImageRect(screenGroup, "media/noneIconWhite.png", 38, 38)
-	classicNoneIconWhite.x = centerX - 108; classicNoneIconWhite.y = centerY+22;
+	classicNoneIconWhite.x = centerX - 108; classicNoneIconWhite.y = _H * 0.533;
 	classicNoneIconWhite.isVisible = false
 	
 	challengeNoneIconWhite = display.newImageRect(screenGroup, "media/noneIconWhite.png", 38, 38)
-	challengeNoneIconWhite.x = centerX - 108; challengeNoneIconWhite.y = centerY+92;
+	challengeNoneIconWhite.x = centerX - 108; challengeNoneIconWhite.y = _H * 0.643;
 	challengeNoneIconWhite.isVisible = false
 	
 	classicNoneIconBlack = display.newImageRect(screenGroup, "media/noneIconBlack.png", 38, 38)
-	classicNoneIconBlack.x = centerX - 108; classicNoneIconBlack.y = centerY+22;
+	classicNoneIconBlack.x = centerX - 108; classicNoneIconBlack.y = _H * 0.533;
 	classicNoneIconBlack.isVisible = false
 	
 	challengeNoneIconBlack = display.newImageRect(screenGroup, "media/noneIconBlack.png", 38, 38)
-	challengeNoneIconBlack.x = centerX - 108; challengeNoneIconBlack.y = centerY+92;
+	challengeNoneIconBlack.x = centerX - 108; challengeNoneIconBlack.y = _H * 0.643;
 	challengeNoneIconBlack.isVisible = false
 	
 		
