@@ -476,7 +476,7 @@ local function newSphere(sphereType)
 	
 	while not newPos do
 		x = math.random(0, 3) * ((_W - 40) / 4) + 55
-		y = math.random(0, 5) * ((_H - 35)/ 6) + 60
+		y = math.random(0, 5) * ((_H - 35)/ 6) + _H / 9.5
 		if yellowSphere == nil and clickCounter == 0 then
 			newPos = true
 		elseif spotAvailable(x,y) then

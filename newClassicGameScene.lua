@@ -253,10 +253,9 @@ local function newSphere()
 	local x, y
 	
 
-	print(_H)
 	while not newPos do
 		x = math.random(0, 3) * ((_W - 40) / 4) + 55
-		y = math.random(0, 5) * ((_H - 35)/ 6) + 60
+		y = math.random(0, 5) * ((_H - 35)/ 6) + _H / 9.5
 		if yellowSphere == nil then
 			newPos = true
 		elseif getDistance(x, y, yellowSphere.x, yellowSphere.y) > 50 then
