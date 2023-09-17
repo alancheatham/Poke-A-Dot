@@ -110,7 +110,7 @@ local gpgs = nil
 if platform == 'ios' then
 	gameCenter = require('gameNetwork')
 elseif platform == 'android' then
-	gpgs = require('plugin.gpgs.v2')
+	gpgs = require('plugin.gpgs.v3')
 	-- local licensing = require( "licensing" )
 
 	-- local function licensingListener( event )

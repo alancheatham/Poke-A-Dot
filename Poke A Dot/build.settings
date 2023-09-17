@@ -54,9 +54,9 @@ settings =
         {
             publisherId = "com.coronalabs"
         },
-		["plugin.gpgs.v2"] =
+		["plugin.gpgs.v3"] =
         {
-            publisherId = "com.coronalabs",
+            publisherId = "com.solar2d",
             supportedPlatforms = {["android"] = true, ["android-kindle"] = true }
         },
 	},
